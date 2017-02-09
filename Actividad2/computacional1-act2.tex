@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{hyperref}
+\titlespacing*{\section}
+{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
+\titlespacing*{\subsection}
+{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%PORTADA
+
+\begin{titlepage}
+\newcommand{\Hrule}{\rule{\linewidth}{0.5mm}}
+
+\begin{center}
+\includegraphics[width=4cm]{logo.png}
+\end{center}
+
+\begin{center}
+\textsc{\LARGE Universidad de Sonora}\\[0.5cm]
+\textsc{División de Ciencias Exactas y Naturales}\\[0.1cm]
+\textsc{Departamento de Física}\\[1.5cm]
+\Hrule \\[0.5cm]   
+   \textsc{\LARGE \bfseries Datos de Sondeo: San Diego, CA} \\[0.5cm]
+\Hrule \\[1.5cm]
+\textsc{\Large Sofía González Montoya} \\[1cm]
+\textsc{\Large Profesor: Carlos Lizárraga Celaya} \\[2.5cm]
+\textsc{\today}
+\end{center}
+\end{titlepage}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RESUMEN
+\doublespacing
+\section{\textsc{Resumen}}
+En esta práctica se manejaron los datos de sondeo de la locación elegida, en este caso, San Diego CA. haciendo uso del editor de texto Emacs, el cual nos ayuda principalmente a limpiar, filtrar y preparar los datos a utilizar.
+
+%INTRODUCCION
+\section{\textsc{Introducción}}
+Retomando el tema de la estructura de la atmósfera de la primera actividad realizada ahora el trabajo de esta práctica consiste en elegir una locación de México o el sur de Estados Unidos de donde podremos extraer los datos de sondeo al lanzar un globo climático para describir el comportamiento de la atmósfera en esa ubicación. La locación escogida para trabajar con ella fue San Diego, California y con los datos obtenidos de las observaciones de un día específico, en este caso el 1 de Febrero de 2016 a las 12Z, realizar una gráfica de presión contra altura y otra de temperatura contra altura y haciendo un análisis de las observaciones de cada gráfica. \\
+
+Después se obtuvieron los datos de todo un año y se hizo una tabla en la que se compara cuantas veces fue lanzado el globo climático todos los días a diferentes horas. En el desarrollo del trabajo se describirán los procesos hechos para la obtención de estos datos.
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DESARROLLO
+\section{\textsc{Desarrollo del Tema}}
+\subsection{\textsc{Obtención de datos}}
+Primeramente se escogió la locación a utilizar para los datos de las observaciones atmosféricas, para este trabajo los datos a utilizar son de San Diego, California en el sur de Estados Unidos. Teniendo ya la locación, el siguiente paso era extraer los datos del 1 de Febrero de 2016 a las 12Z haciendo uso del editor de texto emacs para tener sólo esos datos y obteniendo un archivo con formato de texto. A partir de estos datos obtenidos se requiere elaborar dos gráficas, una de presión contra altura y la siguiente de temperatura contra altura. \\
+
+Con ayuda de las gráficas podemos observar que la presión atmosférica va disminuyendo exponencialmente conforme la altitud va aumentando, puesto que la altura máxima de altitud del globo climático en esta locación es de 3 km aproximadamente, donde ocurre este fenómeno.
+
+Con respecto a la temperatura, esta también va disminuyendo mientras la altura aumenta, sin embargo, hay más variación en conforme va a subiendo el globo en los que va bajando de los 13 C hasta -70 C y más alto sube de nuevo hasta los -40 C.
+
+\begin{figure}
+\centering
+\includegraphics[width= 9cm]{PresionvAltura.png}
+\caption{Gráfica de presión vs. altura en la que podemos observar la disminución de presión a mayores alturas.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width= 9cm]{TempvAltura.png}
+\caption{Gráfica de temperatura vs. altura en la que se puede observar la variación de temperatura conforme la altura va aumentando, con un rango de -70 C a 13 C}
+\end{figure}
+\pagebreak
+
+\subsection{\textsc{Datos 2016}}
+Con ayuda de un script proporcionado por el profesor, se obtuvieron los datos de sondeo de todo el año 2016, todos los días a distintas horas que el globo climático fue lanzado para hacer observaciones. Utilizando emacs pudimos preparar los datos para la ubicación escogida por cada persona y filtrar los datos de las veces al año que el globo fue lanzado a las 00Z, las veces que fue lanzado a las 12Z y realizar una tabla con estos datos para saber cuantos datos hay por mes. 
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline \hline
+Mes & 00Z & 12Z   \\
+\hline \hline
+Enero & 31 & 31  \\ \hline
+Febrero & 28 & 28  \\ \hline
+Marzo & 30 & 29 \\ \hline
+Abril & 30 & 30 \\ \hline
+Mayo & 31 & 31 \\ \hline
+Junio & 30 & 30 \\ \hline
+Julio & 31 & 31 \\ \hline
+Agosto & 31 & 31 \\ \hline
+Septiembre & 30 & 30 \\ \hline
+Octubre & 31 & 31 \\ \hline
+Noviembre & 30 & 30 \\ \hline
+Diciembre & 31 & 31 \\ \hline
+Total & 364 & 363 \\ \hline
+\end{tabular}
+\caption{observaciones realizadas a las 00Z y 12Z horas.}
+\label{tabla:sencilla}
+\end{center}
+\end{table}
+
+\subsection{\textsc{Proceso de Preparación de Datos}}
+Para la extracción de los datos se hizo uso del editor de texto emacs, con el cual preparamos un ejecutable con ayuda del script proporcionado por el profesor, en el cual sólo se tuvo que reemplazar el número de locación con uso del comando Esc-x query replace respectiva para poder guardar el archivo con los datos de todo el año 2016. \\
+
+Después con ayuda de los comandos de filtración grep creamos otros dos archivos, uno en el que tenemos los datos de todos los meses que el globo fue lanzado a las 12Z todos los días y el otro cuando fue lanzado a las 00Z. Después se obtiene el conteo de veces que fue repetido el lanzamiento con el uso del comando wc, esto se utilizó también para saber cuantas veces fue lanzado en un mes en las dos horas distintas. \\
+
+El script utilizado para la extracción de los datos fue el siguiente: \\
+\begin{verbatim}
+# Descarga por mes. Cambiar año de consulta. Ajustar el numero de estacion.
+#!/bin/bash
+# Despues de editar: chmod 755 script1.sh
+# Para ejecutar: ./script1.sh
+
+IFS=":"
+LISTM31="01:03:05:07:08:10:12"
+#LISTM31="01:03:05:07"
+LISTM30="04:06:09:11"
+#LISTM30="04:06"
+LISTM28="02"
+
+# Script para bajar info por mes. Año 2016, dentro del URL:  YEAR=2015
+# Months 31 days
+for i in $LISTM31 ; do
+    /usr/local/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region
+    =naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=3112&STNM=76692"
+       /bin/sleep 5
+done
+# Months 30 days
+for i in $LISTM30 ; do
+    /usr/local/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region
+    =naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=3012&STNM=76692"
+       /bin/sleep 5
+done
+# Feb. 28 days
+for i in $LISTM28 ; do
+    /usr/local/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region
+    =naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=2812&STNM=76692"
+       /bin/sleep 5
+done
+\end{verbatim}
+
+En el cual sólo reemplazamos en las URL, el STNM que es el número de estación elegida, con el comando explicado anteriormente, cambiando el mío a 72293 correspondiente a la ciudad de San Diego, California.
+
+
+
+\begin{thebibliography}{9}
+\bibitem[1]{Wyoming}
+University of Wyoming, sitio web: http://weather.uwyo.edu/upperair/sounding.html . Última fecha de consulta: 08 de Febrero 2017.
+\end{thebibliography}
+
+
+\end{document}
