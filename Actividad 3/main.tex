@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{hyperref}
+\titlespacing*{\section}
+{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
+\titlespacing*{\subsection}
+{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%PORTADA
+
+\begin{titlepage}
+\newcommand{\Hrule}{\rule{\linewidth}{0.5mm}}
+
+\begin{center}
+\includegraphics[width=4cm]{logo.png}
+\end{center}
+
+\begin{center}
+\textsc{\LARGE Universidad de Sonora}\\[0.5cm]
+\textsc{División de Ciencias Exactas y Naturales}\\[0.1cm]
+\textsc{Departamento de Física}\\[1.5cm]
+\Hrule \\[0.5cm]   
+   \textsc{\LARGE \bfseries Iniciándose en Python} \\[0.5cm]
+\Hrule \\[1.5cm]
+\textsc{\Large Sofía González Montoya} \\[1cm]
+\textsc{\Large Profesor: Carlos Lizárraga Celaya} \\[2.5cm]
+\textsc{\today}
+\end{center}
+\end{titlepage}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%RESUMEN
+\doublespacing
+\section{\textsc{Resumen}}
+En la actividad de esta semana la atención se centra en aprender a utilizar python, haciendo uso de los datos obtenidos de los sondeos anuales de la locación escogida, creando tablas de los días, el CAPE y agua precipitable como variables y realizando gráficas a partir de estas.
+
+%INTRODUCCION
+\section{\textsc{Introducción}}
+En esta práctica hacemos uso del análisis exploratorio de datos, con la herramienta Python. Python es un lenguaje de programación de propósito general, pero especialmente es usado para el análisis de datos, que es para lo que nosotros lo utilizamos. Python es conocido como un lenguaje de programación interpretado y bastante sencillo de comprender. Para este trabajo se utilizaron en particular tres bibliotecas para el análisis de nuestros datos: numpy, pandas y matplotlib, las cuales nos ayudan para la preparación de datos y la creación de gráficas a partir de esto. Con esto pudimos analizar los datos de las variables CAPE y agua precipitable de los datos de sondeo en todo el año de la locación escogida. 
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DESARROLLO
+\section{\textsc{Desarrollo del Tema}}
+\subsection{\textsc{Obtención de datos}}
+Antes de empezar a utilizar Python, nos dimos a la tarea de filtrar los datos de las 00Z y 12Z anuales de dos variables: CAPE y Agua Precipitable, haciendo uso del siguiente comando 
+
+\begin{verbatim}
+cat sondeos.txt | egrep -i "Observations|CAPE|water" | sed 
+-e '/00Z/,+2d' >12Zanual.txt
+\end{verbatim}
+
+Con estas variables realizamos un documento con emacs utilizando el formato con separación de comas entre los datos y deshaciéndonos de lo que no necesita ser leído para las tablas. \\
+
+Después de esto, con jupyter notebook importamos pandas, numerical python y matplotlib para ayudarnos con nuestra lectura de datos. Y con df (define file) leemos el archivo a utilizar:
+
+\begin{verbatim}
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+df = pd.read_csv("/home/sofiagm/CompuDatos/00Zanual.txt,
+names=['Fecha', 'CAPE', 'PW']")
+\end{verbatim}
+
+Después pedimos una descripción de los datos obtenidos y para no tener errores con los gráficos, utilizar el siguiente comando para definir las variables CAPE y PW como números.
+
+\begin{verbatim}
+df.CAPE= pd.to_numeric(df.CAPE, errors='coerce')
+\end{verbatim}
+
+Para poder crear tablas con los datos utilizados, y una descripción de estos tenemos, donde nos dan la media, 
+
+\begin{verbatim}
+df.head(20),
+df.describe()
+\end{verbatim}
+
+
+\includegraphics[width=5cm]{Tabla.png}
+\includegraphics[width=5cm]{tablas.png}
+
+Con esto podemos hacer las gráficas de las variables 'CAPE' y 'Precipitable Water', y decidimos hacer histogramas y diagrama de cajas para comparar los datos. Con los siguientes comandos:
+
+\begin{verbatim}
+df.hist(u'CAPE',bins=20)
+df.boxplot(column='CAPE')
+
+df.boxplot(column='PW')
+df.hist(u'PW',bins=20)
+\end{verbatim}
+
+Y para comparar por meses en el diagrama de cajas, utilizamos los siguientes comandos,
+
+\begin{verbatim}
+df['month']=pd.DatetimeIndex(df[u'Fecha']).month
+df.boxplot(column='CAPE',by='month')
+df.boxplot(column='PW',by='month')
+\end{verbatim}
+
+Con estas gráficas podemos interpretar los datos de CAPE y agua precipitable que hay en San Diego, CA. en todos los meses de 2016.
+
+\subsection{\textsc{CAPE}}
+Energía potencial disponible convectiva (CAPE) es uno de los índices más populares y más usados en los sondeos de datos. Esta variable es la cantidad de energía que un parcel de aire tendría elevado a cierta distancia en la atmósfera y es un indicador de la inestabilidad atmosférica. Esta variable se mide en J/kg.
+
+La variable CAPE graficada de la locación de San Diego, California es la siguiente, como se puede observar la mayoría de los datos analizados tienen como valor de CAPE cero en todo el año, por lo que los diagramas de cajas no muestran cajas en si, pues esos valores son muy cercanos a cero. \\
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{CAPEhist.png}
+\caption{Histograma CAPE}
+\end{figure}
+
+\begin{center}
+\includegraphics[width=10cm]{CAPEcaj.png}
+\end{center}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=10cm]{CAPEcajas.png}
+\caption{Diagrama de cajas comparativas CAPE}
+\end{figure} 
+
+%%
+
+\subsection{\textsc{Agua Precipitable (PW)}}
+El agua precipitable es la profundidad de agua en una columna de la atmósfera, si todo el vapor de agua en una columna vertical de aire quedaría como lluvia, dejando el aire completamente seco. Esta variable se mide en milimetros o pulgadas. El agua precipitable no mide cuánto va a llover, si no cuánta humedad hay en el aire. Entre mayores los valores de agua precipitable más posibilidad de humedad para que se forme la lluvia. De 0.5 in o menos, la cantidad de humedad es muy baja, de 1.75 a 2.0 in es una cantidad de humedad significativa, y de 2.0 in en adelante es una cantidad muy alta de humedad en la atmósfera. \\
+
+Para San Diego, las gráficas de la variable de agua precipitable son las siguientes:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{PWhist.png}
+\caption{Histograma Agua Precipitable}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{PWcaj.png}
+\caption{Diagrama de caja de la variable Agua Precipitable}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=10cm]{PWcajas.png}
+\caption{Diagrama de cajas comparativo de Agua Precipitable en meses}
+\end{figure}
+
+Se puede ver en las gráficas que la media de los datos se encuentra entre los 10 y 20 mm de agua precipitable y se ven aumentadas entre los meses Julio y Septiembre.
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{9}
+\bibitem[1]{Wyoming}
+University of Wyoming, sitio web: http://weather.uwyo.edu/upperair/sounding.html Última fecha de consulta: 12 de Febrero 2017.
+\bibitem[2]{CAPE}
+CAPE https://en.wikipedia.org/wiki/Convective\_available\_potential\_energy Última fecha de consulta: 15 de Febrero 2017
+\bibitem[3]{PW}
+Precipitable Water https://en.wikipedia.org/wiki/Precipitable\_water Última fecha de consulta: 15 de Febrero 2017
+\bibitem[4]{Python}
+A Complete Tutorial to Learn Data Science with Python from Scratch https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-learn-data-science-python-scratch-2/ Última fecha de consulta: 14 de Febrero 2017
+\bibitem[5]{PrW}
+Precipitable Water http://www.theweatherprediction.com/habyhints3/899/ Última fecha de consulta: 15 de Febrero 2017
+\end{thebibliography}
+
+
+\end{document}
+
